@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "stable"
+
+services:
+  - docker
+
+cache:
+  directories:
+    - "node_modules"
+install:
+  - npm install
+
+jobs:
+  include:
+    - stage: build docker image
+      if: branch = master
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t time-manager-web-interface .
+        - docker images
+        - docker tag time-manager-web-interface $DOCKER_USERNAME/time-manager-web-interface
+        - docker push $DOCKER_USERNAME/time-manager-web-interface
