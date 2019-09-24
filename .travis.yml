@@ -17,7 +17,7 @@ jobs:
       if: branch = master
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker build -t time-manager-web-interface .
+        - docker build -t time-manager-web-interface-v2 .
         - docker images
-        - docker tag time-manager-web-interface $DOCKER_USERNAME/time-manager-web-interface
-        - docker push $DOCKER_USERNAME/time-manager-web-interface
+        - docker tag time-manager-web-interface-v2 $DOCKER_USERNAME/time-manager-web-interface-v2
+        - docker push $DOCKER_USERNAME/time-manager-web-interface-v2
