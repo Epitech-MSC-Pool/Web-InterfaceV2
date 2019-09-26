@@ -11,7 +11,7 @@
 import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import Router from 'vue-router'
-import store from '../store'
+import store from './store'
 import Meta from 'vue-meta'
 
 // Routes
@@ -22,7 +22,7 @@ Vue.use(Router)
 // Create a new router
 const router = new Router({
   base: '/control',
-  mode: 'history',
+  mode:  'hash',
   routes: paths,
 
   scrollBehavior (to, from, savedPosition) {

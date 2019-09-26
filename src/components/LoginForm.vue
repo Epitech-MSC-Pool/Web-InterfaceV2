@@ -14,7 +14,7 @@
             class="elevation-12">
             <v-toolbar
               color="general">
-              <v-toolbar-title>Admin Panel</v-toolbar-title>
+              <v-toolbar-title>Time MANAGER</v-toolbar-title>
               <v-spacer/>
             </v-toolbar>
             <v-card-text>
@@ -71,7 +71,7 @@
           </v-card>
         </v-flex>
       </v-layout>
-      
+
     </v-container>
   </v-content>
 </template>

@@ -210,6 +210,7 @@
         mapMutations,
         mapState
     } from 'vuex'
+    import ClockService from "../../services/ClockService";
     export default {
         data: () => ({
             snack: false,
@@ -347,16 +348,21 @@
                             this.cancelInline
                         })
                 } else {
-                    let tableItem = this.editedItem
+                    let tableItem = this.editedItem;
                     let lastname = tableItem.lastname;
                     let password = tableItem.password;
                     let email = tableItem.email;
                     let firstname = tableItem.firstname;
                     let username = tableItem.username;
                     axios.post('/users/sign_up', {password, email, firstname, lastname, username,})
-                        .then((response) => this.UserList.push(this.editedItem))
+                        .then((response) => {
+                            this.UserList.push(this.editedItem);
+                            ClockService.newClock(response.data.id);
+                            console.log(response);
+                            console.log(response.data.id)
+                        })
                         .catch(error => {
-                            console.log(error)
+                            console.log(error);
                             this.cancelInline
                         })
 

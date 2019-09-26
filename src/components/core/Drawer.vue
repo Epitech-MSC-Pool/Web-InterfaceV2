@@ -118,6 +118,12 @@
                     text: 'User Administration',
                     role: 'ADMIN'
                 },
+                {
+                    to: '/dashboard/clock',
+                    icon: 'mdi-account',
+                    text: 'ClockIn',
+                    role: 'ADMIN'
+                },
             ],
             responsive: false
         }),

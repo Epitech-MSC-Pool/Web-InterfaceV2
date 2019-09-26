@@ -3,7 +3,7 @@
  * for more information on routes, see the
  * official documentation https://router.vuejs.org/en/
  */
-import store from '../store'
+import store from './store'
 export default [
   {
     path: '*',
@@ -68,6 +68,14 @@ export default [
           requiresAuth: true
         },
         component: () => import(`@/components/DashViews/AdminPage.vue`)
+      },
+      {
+        path: 'clock',
+        meta: {
+          name: 'Clock',
+          requiresAuth: true
+        },
+        component: () => import(`@/components/DashViews/ClockPage.vue`)
       },
     ]
   }

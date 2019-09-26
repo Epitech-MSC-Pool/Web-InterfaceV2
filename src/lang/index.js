@@ -9,7 +9,7 @@ const requireLang = require.context(
 const messages = {}
 
 for (const file of requireLang.keys()) {
-  if (file === './index.js') continue
+  if (file === './router.js') continue
 
   const path = file.replace(/(\.\/|\.json$)/g, '').split('/')
 

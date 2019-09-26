@@ -3,7 +3,6 @@
     <v-app
       id="dashboard-view"
       dark>
-      <core-filter />
 
       <core-toolbar />
 
