@@ -2,7 +2,7 @@
     <v-btn
             color="blue darken-1"
             flat
-            @click="clock">CLOCk
+            @click="clock">Clock
     </v-btn>
 </template>
 
