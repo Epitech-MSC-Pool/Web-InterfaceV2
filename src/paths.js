@@ -77,6 +77,14 @@ export default [
         },
         component: () => import(`@/components/DashViews/ClockPage.vue`)
       },
+      {
+        path: 'manager',
+        meta: {
+          name: 'Manager Page',
+          requiresAuth: true
+        },
+        component: () => import(`@/components/DashViews/ManagerPage.vue`)
+      },
     ]
   }
 ]

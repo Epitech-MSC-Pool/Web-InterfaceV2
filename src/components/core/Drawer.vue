@@ -119,6 +119,12 @@
                     role: 'ADMIN'
                 },
                 {
+                    to: '/dashboard/manager',
+                    icon: 'mdi-account',
+                    text: 'Manager Page',
+                    role: 'ADMIN'
+                },
+                {
                     to: '/dashboard/clock',
                     icon: 'mdi-account',
                     text: 'ClockIn',

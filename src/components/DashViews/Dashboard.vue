@@ -123,42 +123,43 @@
                 </v-flex>
             </v-layout>
         </v-row>
-        <v-row no-gutters>
+        <v-row>
             <v-layout>
                 <v-flex
                         md12
                         lg12
                 >
                     <material-card
-                            color="orange"
-                            title="Employee Stats"
-                            text="New employees on 15th September, 2016"
+                            color="general"
+                            :active-class="color"
+                            title="Working Times"
+                            text="List of all Working Times For the Week"
                     >
+                        <v-spacer></v-spacer>
                         <v-data-table
                                 :headers="headers"
-                                :items="items"
-                                hide-actions
+                                :items="WorkingTime"
+                                :rows-per-page-items="rowsAmount"
+                                :search="search"
+                                class="elevation-1"
                         >
-                            <template
-                                    slot="headerCell"
-                                    slot-scope="{ header }"
-                            >
-              <span
-                      class="font-weight-light text-warning text--darken-3"
-                      v-text="header.text"
-              />
-                            </template>
-                            <template
-                                    slot="items"
-                                    slot-scope="{ index, item }"
-                            >
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ item.name }}</td>
-                                <td class="text-xs-right">{{ item.salary }}</td>
-                                <td class="text-xs-right">{{ item.country }}</td>
-                                <td class="text-xs-right">{{ item.city }}</td>
+                            <!-- change table header background and text color(or other properties) -->
+                            <template v-slot:items="props">
+                                <td>{{ props.item.id }}</td>
+                                <td class="">{{ props.item.start }}</td>
+                                <td class="">{{ props.item.end }}</td>
                             </template>
                         </v-data-table>
+                        <v-snackbar
+                                v-model="snack"
+                                :timeout="3000"
+                                :color="snackColor">
+                            {{ snackText }}
+                            <v-btn
+                                    flat
+                                    @click="snack = false">Close
+                            </v-btn>
+                        </v-snackbar>
                     </material-card>
                 </v-flex>
             </v-layout>
@@ -167,8 +168,10 @@
 </template>
 
 <script>
+    import WorkingTimeService from "../../services/WorkingTimeService";
+
+    let moment = require('moment');
     export default {
-        name: 'Dashboard',
         data() {
             return {
                 ratio: {
@@ -250,58 +253,14 @@
                 },
                 headers: [
                     {
-                        sortable: false,
-                        text: 'Name',
-                        value: 'name'
+                        text: 'ID',
+                        align: 'left',
+                        value: 'id',
                     },
-                    {
-                        sortable: false,
-                        text: 'Salary',
-                        value: 'salary',
-                        align: 'right'
-                    },
-                    {
-                        sortable: false,
-                        text: 'Country',
-                        value: 'country',
-                        align: 'right'
-                    },
-                    {
-                        sortable: false,
-                        text: 'City',
-                        value: 'city',
-                        align: 'right'
-                    }
+                    {text: 'Start Work', value: 'start'},
+                    {text: 'End Work', value: 'end'},
                 ],
-                items: [
-                    {
-                        name: 'Dakota Rice',
-                        country: 'Niger',
-                        city: 'Oud-Tunrhout',
-                        salary: '$35,738'
-                    },
-                    {
-                        name: 'Minerva Hooper',
-                        country: 'Curaçao',
-                        city: 'Sinaai-Waas',
-                        salary: '$23,738'
-                    }, {
-                        name: 'Sage Rodriguez',
-                        country: 'Netherlands',
-                        city: 'Overland Park',
-                        salary: '$56,142'
-                    }, {
-                        name: 'Philip Chanley',
-                        country: 'Korea, South',
-                        city: 'Gloucester',
-                        salary: '$38,735'
-                    }, {
-                        name: 'Doris Greene',
-                        country: 'Malawi',
-                        city: 'Feldkirchen in Kārnten',
-                        salary: '$63,542'
-                    }
-                ],
+                WorkingTime: [],
                 tabs: 0,
                 list: {
                     0: false,
@@ -310,9 +269,22 @@
                 }
             }
         },
+        created() {
+            this.addWorkingtime();
+        },
         methods: {
             complete(index) {
                 this.list[index] = !this.list[index]
+            },
+
+            addWorkingtime(){
+                let startOfWeek = moment().startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+                let endOfWeek = moment().endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+                WorkingTimeService.getUserWorkingTime(localStorage.id, startOfWeek, endOfWeek).then(request => {
+                    this.WorkingTime = request.data;
+                    console.log(request)
+                    console.log(this.WorkingTime)
+                }).catch(error => console.log(error));
             }
         }
     }

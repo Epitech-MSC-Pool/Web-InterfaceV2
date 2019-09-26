@@ -18,7 +18,7 @@
             username: localStorage.username,
             role: localStorage.role,
             userid: localStorage.id,
-            startDateTime: moment().format("YYYY MMMM Do, h:mm:ss"),
+            startDateTime: moment().format("YYYY-MM-DD HH:mm:ss"),
             clockIn: false
         }),
         methods: {
@@ -28,14 +28,14 @@
             clock: function (){
                 if (!this.clockIn) {
                     this.clockIn = true;
-                    this.startDateTime = moment().format("YYYY MMMM Do, h:mm:ss");
+                    this.startDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
                     ClockService.editClock(this.userid,this.startDateTime,true).then(request => {
                         console.log(request)
                     }).catch(error => console.log(error));
                 }
                 else {
                     this.clockIn = false;
-                    let time = moment().format("YYYY MMMM Do, h:mm:ss");
+                    let time = moment().format("YYYY-MM-DD HH:mm:ss");
                     ClockService.clockOut(this.userid,time,false).then(request => {
                         console.log(request)
                     }).catch(error => console.log(error));

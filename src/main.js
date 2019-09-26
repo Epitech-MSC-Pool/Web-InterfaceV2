@@ -14,7 +14,6 @@ import { sync } from 'vuex-router-sync'
 // Application imports
 import App from './App'
 import i18n from '@/i18n'
-import router from '@/router'
 import store from '@/store'
 import Vuetify from 'vuetify'
 import theme from './plugins/theme'
@@ -22,6 +21,7 @@ import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from 'axios'
+import router from "./router";
 
 Vue.prototype.$http = axios
 // Sets the default url used by all of this axios instance's requests
