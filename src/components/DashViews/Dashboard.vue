@@ -12,7 +12,7 @@
                             color="green"
                             icon="mdi-store"
                             title="Salaire Prevue"
-                            value="$1800"
+                            :value="salary"
                             sub-icon="mdi-calendar"
                             sub-text="Last 24 Hours"
                     />
@@ -27,7 +27,7 @@
                             color="orange"
                             icon="mdi-content-copy"
                             title="Hours Worked"
-                            value="24/35"
+                            :value="workingTimeSum"
                             small-value="H"
                             sub-icon="mdi-alert"
                             sub-icon-color="error"
@@ -131,7 +131,6 @@
                 >
                     <material-card
                             color="general"
-                            :active-class="color"
                             title="Working Times"
                             text="List of all Working Times For the Week"
                     >
@@ -139,8 +138,6 @@
                         <v-data-table
                                 :headers="headers"
                                 :items="WorkingTime"
-                                :rows-per-page-items="rowsAmount"
-                                :search="search"
                                 class="elevation-1"
                         >
                             <!-- change table header background and text color(or other properties) -->
@@ -150,16 +147,6 @@
                                 <td class="">{{ props.item.end }}</td>
                             </template>
                         </v-data-table>
-                        <v-snackbar
-                                v-model="snack"
-                                :timeout="3000"
-                                :color="snackColor">
-                            {{ snackText }}
-                            <v-btn
-                                    flat
-                                    @click="snack = false">Close
-                            </v-btn>
-                        </v-snackbar>
                     </material-card>
                 </v-flex>
             </v-layout>
@@ -174,6 +161,8 @@
     export default {
         data() {
             return {
+                workingTimeSum:"0/35",
+                salary:'0',
                 ratio: {
                     type: String,
                     default: "ct-golden-section"
@@ -182,7 +171,6 @@
                     data: {
                         labels: ['L', 'T', 'W', 'T', 'F', 'S', 'S'],
                         series: [
-                            [8, 6, 9, 5, 8, 2, 10]
                         ]
                     },
                     options: {
@@ -201,8 +189,8 @@
                 },
                 PieChart: {
                     data: {
-                        labels: ['Bananas', 'Apples', 'Grapes'],
-                        series: [20, 15, 40]
+                        labels: ['Horraire Minimum', 'Horraire Effectuer'],
+                        series: [35]
                     },
                     options: {
                         labelInterpolationFnc: function (value) {
@@ -227,12 +215,7 @@
                 emailsSubscriptionChart: {
                     data: {
                         labels: ['Heure Nescesaire', 'Heure Effectuer'],
-                        series: [
-                            [
-                                [8, 8],
-                                [5, 9]
-                            ]
-                        ]
+                        series: []
                     },
                     options: {
                         seriesBarDistance: 10,
@@ -277,15 +260,41 @@
                 this.list[index] = !this.list[index]
             },
 
-            addWorkingtime(){
+            addWorkingtime() {
                 let startOfWeek = moment().startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
                 let endOfWeek = moment().endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
                 WorkingTimeService.getUserWorkingTime(localStorage.id, startOfWeek, endOfWeek).then(request => {
-                    this.WorkingTime = request.data;
-                    console.log(request)
-                    console.log(this.WorkingTime)
+                    this.WorkingTime = request.data.workingTimes;
+                    let WorkingTimeByDay = [];
+                    WorkingTimeByDay = request.data.WorkingTimeByDay;
+                    let test = [];
+                    let workingTimeSum = 0;
+                    let workTimeDaySum = 0;
+                    let cpt = 0;
+                    for (let work of WorkingTimeByDay) {
+                        workingTimeSum += work.time
+                        cpt++;
+                    }
+                    this.PieChart.data.series.push(workingTimeSum);
+                    this.emailsSubscriptionChart.data.series.push([35,workingTimeSum]);
+                    workTimeDaySum = WorkingTimeByDay[0].time;
+                    for (let i = 1; i < cpt; i++) {
+                        if (WorkingTimeByDay[i].day === WorkingTimeByDay[i - 1].day) {
+                            workTimeDaySum += WorkingTimeByDay[i].time
+                        } else {
+                            test.push(workTimeDaySum);
+                            workTimeDaySum = WorkingTimeByDay[i].time
+                        }
+                        if (i === cpt-1) {
+                            test.push(workTimeDaySum);
+
+                        }
+                    }
+                    this.dailySalesChart.data.series.push(test);
+                    this.salary = ""+(10*workingTimeSum).toFixed(2)+" $";
+                    this.workingTimeSum = ""+(workingTimeSum).toFixed(2)+"/35h";
                 }).catch(error => console.log(error));
-            }
+            },
         }
     }
 </script>

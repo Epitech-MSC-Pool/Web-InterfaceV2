@@ -23,11 +23,11 @@
       }, (error) => {
           if (401 === error.response.status) {
 						if (this.$store.getters.authorized) {
-							this.$store.dispatch('refreshtoken')
+
 							}else {
               return Promise.reject(error);
           }
-						
+
 					} else {
               return Promise.reject(error);
           }

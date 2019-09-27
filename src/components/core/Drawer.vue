@@ -76,6 +76,23 @@
                         :active-class="color"
                         avatar
                         class="v-list-item"
+                        v-if='(link.role !=="" && link.role === role) || role === "ADMIN"'
+                >
+                    <v-list-tile-action>
+                        <v-icon>{{ link.icon }}</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-title
+                            v-text="link.text"
+                    />
+                </v-list-tile>
+                <v-list-tile
+                        v-for="(link, i) in links"
+                        :key="i"
+                        :to="link.to"
+                        :active-class="color"
+                        avatar
+                        class="v-list-item"
+                        v-if='link.role ==="" && role !=="ADMIN"'
                 >
                     <v-list-tile-action>
                         <v-icon>{{ link.icon }}</v-icon>
@@ -99,18 +116,19 @@
     export default {
         data: () => ({
             logo: require('@/assets/img/redditicon.png'),
+            role:"USER",
             links: [
                 {
                     to: '/',
                     icon: 'mdi-view-dashboard',
                     text: 'Dashboard',
-                    role: 'USER'
+                    role: ''
                 },
                 {
                     to: '/dashboard/user-profile',
                     icon: 'mdi-account',
                     text: 'User Profile',
-                    role: 'USER'
+                    role: ''
                 },
                 {
                     to: '/dashboard/user-admin',
@@ -122,13 +140,13 @@
                     to: '/dashboard/manager',
                     icon: 'mdi-account',
                     text: 'Manager Page',
-                    role: 'ADMIN'
+                    role: 'Manager'
                 },
                 {
                     to: '/dashboard/clock',
                     icon: 'mdi-account',
                     text: 'ClockIn',
-                    role: 'ADMIN'
+                    role: ''
                 },
             ],
             responsive: false
@@ -149,6 +167,7 @@
         },
         mounted() {
             this.onResponsiveInverted()
+            this.role = localStorage.role,
             window.addEventListener('resize', this.onResponsiveInverted)
         },
         beforeDestroy() {
