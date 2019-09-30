@@ -282,28 +282,25 @@
         methods: {
             getusernames() {
                 axios.get('/users').then(request => {
-                    console.log(request)
                     this.UserList = request.data;
-                    console.log(this.UserList)
                 }).catch(error => console.log(error))
             },
 
 
             // object.assign fills in the empty object with the properties of item
             editItem(item, dbox = true) {
-                this.editedIndex = this.UserList.indexOf(item)
-                item.isAdmin = this.checkboxAdmin
-                item.isActive = this.checkboxActive
-                this.editedItem = Object.assign({}, item)
+                this.editedIndex = this.UserList.indexOf(item);
+                item.isAdmin = this.checkboxAdmin;
+                item.isActive = this.checkboxActive;
+                this.editedItem = Object.assign({}, item);
                 this.dialog = dbox
             },
 
             callTableAction(item, endpoint, method) {
-                let tableItem = this.editedItem
+                let tableItem = this.editedItem;
                 this.$store.dispatch('updateTableItem', {endpoint, tableItem, method})
                     .then((response) => this.saveInline())
                     .catch(error => {
-                        console.log(error)
                         this.cancelInline
                     })
             },
@@ -317,7 +314,6 @@
                     this.editedItem = Object.assign({}, item)
                 })
                     .catch(error => {
-                        console.log(error);
                         this.cancelInline
                     })
             },
@@ -332,7 +328,7 @@
 
             save() {
                 if (this.editedIndex > -1) {
-                    let tableItem = this.editedItem
+                    let tableItem = this.editedItem;
                     let lastname = tableItem.lastname;
                     let email = tableItem.email;
                     let firstname = tableItem.firstname;
@@ -344,7 +340,6 @@
                             Object.assign(this.UserList[this.editedIndex], this.editedItem)
                         })
                         .catch(error => {
-                            console.log(error)
                             this.cancelInline
                         })
                 } else {
@@ -358,11 +353,8 @@
                         .then((response) => {
                             this.UserList.push(this.editedItem);
                             ClockService.newClock(response.data.id);
-                            console.log(response);
-                            console.log(response.data.id)
                         })
                         .catch(error => {
-                            console.log(error);
                             this.cancelInline
                         })
 
@@ -371,23 +363,23 @@
             },
             //toasts/snackbar messages for actions
             saveInline() {
-                this.snack = true
-                this.snackColor = 'success'
+                this.snack = true;
+                this.snackColor = 'success';
                 this.snackText = 'Data saved'
             },
             cancelInline() {
-                this.snack = true
-                this.snackColor = 'error'
+                this.snack = true;
+                this.snackColor = 'error';
                 this.snackText = 'Canceled'
             },
             reset() {
-                this.snack = true
-                this.snackColor = 'success'
+                this.snack = true;
+                this.snackColor = 'success';
                 this.snackText = 'Data reset to default'
             },
             openInline() {
-                this.snack = true
-                this.snackColor = 'info'
+                this.snack = true;
+                this.snackColor = 'info';
                 this.snackText = 'Dialog opened'
             },
             closeInline() {

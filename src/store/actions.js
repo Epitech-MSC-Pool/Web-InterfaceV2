@@ -10,7 +10,6 @@ export default {
                 .then(response => {
                     const token = response.data.token;
                     const user = response.data.user;
-                    console.log(response);
                     localStorage.username = user.username;
                     localStorage.firstname = user.firstname;
                     localStorage.lastname = user.lastname;
@@ -27,7 +26,6 @@ export default {
                     resolve(response)
                 })
                 .catch(err => {
-                    console.log('login error');
                     commit('auth_error');
                     localStorage.removeItem('token');
                     reject(err)
@@ -37,7 +35,6 @@ export default {
     logout({commit}) {
         return new Promise((resolve, reject) => {
             commit('logout')
-            console.log("logout")
             localStorage.removeItem('token')
             localStorage.clear();
             delete axios.defaults.headers.common['auth']
@@ -56,13 +53,11 @@ export default {
                 console.log('refresh token error')
                 commit('logout')
                 localStorage.removeItem('token')
-                console.log(error)
             })
     },
     getTableList({commit}, tableName) {
         this.$http.get(`/${tableName}`)
             .then(response => {
-                console.log(response)
                 let tableList = response.data.Keys
                 commit('setTableList', {tableList})
             })
@@ -76,7 +71,6 @@ export default {
                     resolve(response)
                 })
                 .catch(error => {
-                    console.log(error)
                     reject(error)
                 })
         })

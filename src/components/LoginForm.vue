@@ -97,7 +97,6 @@ export default {
       this.$store.dispatch('login', { username, password })
         .then(() => this.$router.push('/dashboard'))
         .catch(err => {
-        console.log(err)
         this.snackbar= true
         }
         )

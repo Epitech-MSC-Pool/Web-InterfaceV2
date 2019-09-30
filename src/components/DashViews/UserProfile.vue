@@ -151,7 +151,6 @@
                 user.firstname = this.firstname;
                 user.lastname = this.lastname;
                 user.role = this.role;
-                console.log(user);
                 axios.put('/users/' + this.id + '', {
                     email: user.email,
                     password: user.password,

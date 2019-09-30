@@ -30,7 +30,6 @@
                     this.clockIn = true;
                     this.startDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
                     ClockService.editClock(this.userid,this.startDateTime,true).then(request => {
-                        console.log(request)
                     }).catch(error => console.log(error));
                 }
                 else {

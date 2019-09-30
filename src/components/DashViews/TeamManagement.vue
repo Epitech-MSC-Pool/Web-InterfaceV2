@@ -260,17 +260,14 @@
         // called when page is created before dom
         created() {
             UserService.getAllUser().then(request => {
-                console.log(request)
                 this.Users = request.data;
-            }).catch(error => console.log(error))
+            }).catch(error => console.log(error));
             if (localStorage.role === "MANAGER") {
                 TeamService.getTeamByManager(localStorage.id).then(request => {
-                    console.log(request)
                     this.TeamList = request.data;
                 }).catch(error => console.log(error))
             } else {
                 TeamService.getAllTeam().then(request => {
-                    console.log(request)
                     this.items = request.data;
                     this.TeamList = request.data;
                 }).catch(error => console.log(error))
@@ -280,20 +277,16 @@
         methods: {
             getusernames(teamId) {
                 TeamService.getTeamUser(teamId).then(request => {
-                    console.log(request)
                     this.UserList = request.data;
-                    console.log(this.UserList)
                 }).catch(error => console.log(error))
             },
 
             getSelectedTeam(team){
-                console.log(team);
                 this.selectedTeamId = team;
                 this.getusernames(team);
             },
 
             getSelectedUser(userid){
-                console.log(userid);
                 this.selectedUserId = userid;
             },
 
@@ -308,7 +301,6 @@
                     this.editedItem = Object.assign({}, item)
                 })
                     .catch(error => {
-                        console.log(error);
                         this.cancelInline
                     })
             },
@@ -330,12 +322,10 @@
                             UserService.getOneById(this.selectedUserId).then((response) => {
                                 this.UserList.push(response.data)
                             }).catch(error => {
-                                console.log(error);
                                 this.cancelInline
                             });
                         })
                         .catch(error => {
-                            console.log(error);
                             this.cancelInline
                         })
                 }
@@ -343,23 +333,23 @@
             },
             //toasts/snackbar messages for actions
             saveInline() {
-                this.snack = true
-                this.snackColor = 'success'
+                this.snack = true;
+                this.snackColor = 'success';
                 this.snackText = 'Data saved'
             },
             cancelInline() {
-                this.snack = true
-                this.snackColor = 'error'
+                this.snack = true;
+                this.snackColor = 'error';
                 this.snackText = 'Canceled'
             },
             reset() {
-                this.snack = true
-                this.snackColor = 'success'
+                this.snack = true;
+                this.snackColor = 'success';
                 this.snackText = 'Data reset to default'
             },
             openInline() {
-                this.snack = true
-                this.snackColor = 'info'
+                this.snack = true;
+                this.snackColor = 'info';
                 this.snackText = 'Dialog opened'
             },
             closeInline() {

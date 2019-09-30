@@ -232,7 +232,6 @@
         methods: {
             getusernames() {
                 axios.get('/teams').then(request => {
-                    console.log(request)
                     this.TeamList = request.data;
                     console.log(this.TeamList)
                 }).catch(error => console.log(error))
@@ -241,19 +240,18 @@
 
             // object.assign fills in the empty object with the properties of item
             editItem(item, dbox = true) {
-                this.editedIndex = this.TeamList.indexOf(item)
-                item.isAdmin = this.checkboxAdmin
-                item.isActive = this.checkboxActive
-                this.editedItem = Object.assign({}, item)
+                this.editedIndex = this.TeamList.indexOf(item);
+                item.isAdmin = this.checkboxAdmin;
+                item.isActive = this.checkboxActive;
+                this.editedItem = Object.assign({}, item);
                 this.dialog = dbox
             },
 
             callTableAction(item, endpoint, method) {
-                let tableItem = this.editedItem
+                let tableItem = this.editedItem;
                 this.$store.dispatch('updateTableItem', {endpoint, tableItem, method})
                     .then((response) => this.saveInline())
                     .catch(error => {
-                        console.log(error)
                         this.cancelInline
                     })
             },
@@ -267,7 +265,6 @@
                     this.editedItem = Object.assign({}, item)
                 })
                     .catch(error => {
-                        console.log(error);
                         this.cancelInline
                     })
             },
@@ -291,11 +288,11 @@
                             Object.assign(this.TeamList[this.editedIndex], this.editedItem)
                         })
                         .catch(error => {
-                            console.log(error)
+
                             this.cancelInline
                         })
                 } else {
-                    let tableItem = this.editedItem
+                    let tableItem = this.editedItem;
                     let lastname = tableItem.lastname;
                     let password = tableItem.password;
                     let email = tableItem.email;
@@ -304,7 +301,6 @@
                     axios.post('/users/sign_up', {password, email, firstname, lastname, username,})
                         .then((response) => this.TeamList.push(this.editedItem))
                         .catch(error => {
-                            console.log(error)
                             this.cancelInline
                         })
 
@@ -313,23 +309,23 @@
             },
             //toasts/snackbar messages for actions
             saveInline() {
-                this.snack = true
-                this.snackColor = 'success'
+                this.snack = true;
+                this.snackColor = 'success';
                 this.snackText = 'Data saved'
             },
             cancelInline() {
-                this.snack = true
-                this.snackColor = 'error'
+                this.snack = true;
+                this.snackColor = 'error';
                 this.snackText = 'Canceled'
             },
             reset() {
-                this.snack = true
-                this.snackColor = 'success'
+                this.snack = true;
+                this.snackColor = 'success';
                 this.snackText = 'Data reset to default'
             },
             openInline() {
-                this.snack = true
-                this.snackColor = 'info'
+                this.snack = true;
+                this.snackColor = 'info';
                 this.snackText = 'Dialog opened'
             },
             closeInline() {

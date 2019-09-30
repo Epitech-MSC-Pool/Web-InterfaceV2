@@ -116,7 +116,7 @@
     export default {
         data: () => ({
             logo: require('@/assets/img/redditicon.png'),
-            role:"USER",
+            role: "USER",
             links: [
                 {
                     to: '/',
@@ -166,8 +166,8 @@
             }
         },
         mounted() {
-            this.onResponsiveInverted()
-            this.role = localStorage.role,
+            this.onResponsiveInverted();
+            this.role = localStorage.role;
             window.addEventListener('resize', this.onResponsiveInverted)
         },
         beforeDestroy() {
@@ -176,11 +176,7 @@
         methods: {
             ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
             onResponsiveInverted() {
-                if (window.innerWidth < 991) {
-                    this.responsive = true
-                } else {
-                    this.responsive = false
-                }
+                this.responsive = window.innerWidth < 991;
             }
         }
     }
